@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="template.xhtml">
+        <f:event listener="#{userManager.cleanDirs(event)}" type="preRenderView" />
+        <ui:define name="title">
+            <h:outputText value="Export Image List"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <p:panel styleClass="ui-panelWithOut">
+                <h1 class="title ui-widget-header ui-corner-all width55">Export Image List</h1>
+                <br />
+                <p:outputLabel value="Please Upload a Zip File named: HTML.Zip, containing the items to process..." />
+                <h:form enctype="multipart/form-data">
+                    <p:fileUpload fileUploadListener="#{fileUploadControl.handleZipFileUpload}" update="growl" auto="false" styleClass="width55" />
+                    <p:growl id="growl" showDetail="true"/>
+                    <br />       
+                    <h:outputText value="Image Items Only: "  />  
+                    <p:selectBooleanCheckbox value="#{imageListBean.onlyImages}" />
+                    <br />
+                    <p:commandButton value="Get Image List"  id="button" actionListener="#{imageListBean.tryGetItemImages(event)}" update="table-wrapper growl"  />
+                    <br />
+                    <br />
+                    <h:panelGroup id="table-wrapper">
+                        <p:dataTable id="imageTable" var="itemImage"  rendered="#{imageListBean.visible}" value="#{imageListBean.itemImages}" styleClass="ui-datatable ui-widget width55"
+                                     paginator="true" rows="10"  
+                                     
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,15,20">  
+                            <f:facet name="header">
+                                #{imageListBean.itemImages.size()} HTML Files were processed, #{imageListBean.itemsWithImages} of these contained Images...
+                            </f:facet>
+                            <p:column>  
+                                <f:facet name="header">  
+                                    <h:outputText value="Master Code" />  
+                                </f:facet>  
+                                <h:outputText value="#{itemImage.masterCode}" />  
+                            </p:column>  
+
+                            <p:column>  
+                                <f:facet name="header">  
+                                    <h:outputText value="Images" />  
+                                </f:facet>  
+                                <h:outputText value="#{itemImage.images}"/>  
+                            </p:column>  
+                        </p:dataTable> 
+                        <br />
+                        <h:panelGrid columns="2" rendered="#{imageListBean.visible}">  
+                            <p:panel header="Export All Images" styleClass="panelWith" >  
+                                <h:commandLink>  
+                                    <p:graphicImage value="/resources/images/excel.png" />  
+                                    <p:dataExporter type="xls" target="imageTable" fileName="images" />  
+                                </h:commandLink>  
+                                <h:commandLink>  
+                                    <p:graphicImage value="/resources/images/pdf.png" />  
+                                    <p:dataExporter type="pdf" target="imageTable" fileName="images"/>  
+                                </h:commandLink>  
+                                <h:commandLink>  
+                                    <p:graphicImage value="/resources/images/csv.png" />  
+                                    <p:dataExporter type="csv" target="imageTable" fileName="images" />  
+                                </h:commandLink>  
+                                <h:commandLink>  
+                                    <p:graphicImage value="/resources/images/xml.png" />  
+                                    <p:dataExporter type="xml" target="imageTable" fileName="images" />  
+                                </h:commandLink>  
+                            </p:panel>  
+
+                            <p:panel header="Export Shown Images" >  
+                                <h:commandLink>  
+                                    <p:graphicImage value="/resources/images/excel.png" />  
+                                    <p:dataExporter type="xls" target="imageTable" fileName="images" pageOnly="true"/>  
+                                </h:commandLink>  
+                                <h:commandLink>  
+                                    <p:graphicImage value="/resources/images/pdf.png" />  
+                                    <p:dataExporter type="pdf" target="imageTable" fileName="images" pageOnly="true"/>  
+                                </h:commandLink>  
+                                <h:commandLink>  
+                                    <p:graphicImage value="/resources/images/csv.png" />  
+                                    <p:dataExporter type="csv" target="imageTable" fileName="images" pageOnly="true"/>  
+                                </h:commandLink>  
+                                <h:commandLink>  
+                                    <p:graphicImage value="/resources/images/xml.png" />  
+                                    <p:dataExporter type="xml" target="imageTable" fileName="images" pageOnly="true"/>  
+                                </h:commandLink> 
+                            </p:panel>  
+                        </h:panelGrid> 
+                    </h:panelGroup>
+                </h:form>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>
+

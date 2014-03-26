@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="shortcut icon" type="image/jpg" href="#{request.contextPath}/resources/images/favicon.ico" />
+                <h:outputStylesheet library="css" name="default.css" />
+                <title><ui:insert name="title">Default Title</ui:insert></title>
+            </f:facet>
+        </h:head>
+        <f:event listener="#{userManager.authenticated(event)}" type="preRenderView" />
+        <h:body>
+            <p:growl id="growl" showDetail="true" life="3000" /> 
+            <p:layout fullPage="true">
+                <p:layoutUnit position="north" size="86" resizable="true" closable="true" collapsible="true" >
+                    <h:panelGrid columns="3"   >
+                        <h:graphicImage value="/resources/images/tptools.png" height="64"/>
+                        <p:outputLabel value="Current User: #{userManager.username}" style="margin-left: 768px;"/>
+                        <p:commandButton id="logout" type="submit" value="Logout" action="#{userManager.logout()}" 
+                                         title="Logout" update="growl" immediate="true"/>
+                    </h:panelGrid>
+                </p:layoutUnit>
+                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                    <div style="text-align: center; height: 34px;"><h:graphicImage value="/resources/images/prometric.png" /></div>
+                </p:layoutUnit>
+                <p:layoutUnit position="west" size="196" header="Intelitest TP Tools" collapsible="true">
+                    <p:menu>
+                        <p:submenu label="Options">
+                            <p:menuitem value="Welcome Page" url="Welcome.xhtml" />
+                            <p:menuitem value="Export Image List" url="ImageList.xhtml" />
+                            <p:menuitem value="Clean HTML Content" url="CleanContent.xhtml" />
+                            <p:menuitem value="Inspect Item" url="InspectItem.xhtml" />
+                        </p:submenu>
+                    </p:menu>
+                </p:layoutUnit>
+                <p:layoutUnit position="center">
+                    <ui:insert name="body">Default Body</ui:insert>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

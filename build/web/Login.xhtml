@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <link rel="shortcut icon" type="image/jpg" href="#{request.contextPath}/resources/images/favicon.ico" />
+        <h:outputStylesheet library="css" name="default.css" />
+        <title>Login</title>
+    </h:head>
+    <h:body>
+        <h:outputLink id="loginLink" value="javascript:void(0)" onclick="dlg.show()" title="login"> 
+            <p:graphicImage  library="images" name="login.png" />
+        </h:outputLink>  
+        <p:growl id="growl" showDetail="true" life="3000" />  
+        <p:dialog id="dialog" header="Login" widgetVar="dlg" showEffect="explode" hideEffect="shake">  
+            <h:form>  
+                <h:panelGrid columns="2" cellpadding="5">  
+                    <h:outputLabel for="username" value="Username:" />
+                    <p:inputText value="#{userManager.username}"   
+                                 id="username" required="true" label="username" style="width: 156px;"/>  
+
+                    <h:outputLabel for="password" value="Password:" />  
+                    <h:inputSecret value="#{userManager.password}"   
+                                   id="password" required="true" label="password" style="width: 160px;"/>  
+
+                    <f:facet name="footer">  
+                        <p:commandButton id="submit" type="submit" value="Login" action="#{userManager.validateUser}" title="Login" update=":growl" />    
+                        &nbsp;&nbsp;
+                        <p:button outcome="/admin/Create" value="Register" />
+                    </f:facet>     
+                </h:panelGrid>  
+            </h:form>  
+        </p:dialog>  
+    </h:body>
+</html>
+

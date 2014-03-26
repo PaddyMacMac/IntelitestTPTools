@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Clean HTML Content"/>
+        </ui:define>
+        <ui:define name="body">
+            <p:panel styleClass="ui-panelWithOut">
+                <h1 class="title ui-widget-header ui-corner-all width55">Clean HTML Content</h1>
+                <br />
+                <p:outputLabel value="Please Upload a Zip File named: HTML.Zip, containing the items to process..." />
+                <h:form enctype="multipart/form-data">
+                    <p:fileUpload fileUploadListener="#{fileUploadControl.handleZipFileUpload}" update="growl" auto="false" styleClass="width55" />
+                    <p:growl id="growl" showDetail="true"/>
+                    <br />                   
+                    <p:commandButton value="Pick Tags"  id="pickButton" actionListener="#{cleanContentBean.tryGetHTMLFiles(event)}" ajax="false" update="table-wrapper growl pickButton" rendered="#{cleanContentBean.showPickButton}" />
+                    <br />
+                    <br />
+                    <br />
+                    <h:panelGroup id="table-wrapper" >
+                        <p:pickList id="pickList" value="#{cleanContentBean.htmlTags}" var="tag"   
+                                    itemLabel="#{tag}" itemValue="#{tag}"  effect="bounce" 
+                                    showCheckbox="true"  
+                                    showSourceFilter="true" showTargetFilter="true" 
+                                    filterMatchMode="contains" 
+                                    rendered="#{cleanContentBean.visible}">
+                            <f:facet name="sourceCaption">HTML Tags To Remove</f:facet>  
+                            <f:facet name="targetCaption">HTML Tags To Include</f:facet>  
+                            <p:column style="width:5%">  
+                                <p:outputLabel value="" />
+                            </p:column>  
+
+                            <p:column style="width:95%;">  
+                                #{tag}  
+                            </p:column> 
+                        </p:pickList> 
+                        <br />
+                        <h:outputText value="Unicode Convert HTML: " rendered="#{cleanContentBean.visible}" />  
+                        <p:selectBooleanCheckbox value="#{cleanContentBean.unicodeConvert}" rendered="#{cleanContentBean.visible}" /> 
+                        <br />
+                        <p:commandButton value="Remove HTML from Items" rendered="#{cleanContentBean.visible}" actionListener="#{cleanContentBean.cleanHTMLContent(event)}" ajax="false" update="table-wrapper downloadLink pickButton growl"/> 
+                        <p:commandButton id="downloadLink" value="Download Cleaned Items" actionListener="#{fileDownloadController.prepZipDownload(event)}" ajax="false" icon="ui-icon-arrowthichk-s" rendered="#{cleanContentBean.showDownLoad}"> 
+                            <p:fileDownload value="#{fileDownloadController.download}" />
+                        </p:commandButton>
+                    </h:panelGroup>
+                </h:form>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>
+

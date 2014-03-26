@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <ui:composition template="template.xhtml">
+        <f:metadata>
+            <f:event listener="#{welcomeBean.cleanDir(event)}" type="preRenderView" />
+        </f:metadata>
+        <ui:define name="title">
+            <h:outputText value="Intelitest TP Tools"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <p:panel styleClass="ui-panelWithOut">
+                <h1 class="title ui-widget-header ui-corner-all width55">Welcome to Intelitest TP Tools</h1>
+                <h:form enctype="multipart/form-data">
+                     <div id="img-container" />
+                </h:form>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+

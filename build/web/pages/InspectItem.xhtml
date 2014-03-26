@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Inspect Item"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <p:panel styleClass="ui-panelWithOut">
+                <h1 class="title ui-widget-header ui-corner-all width55">Inspect Item</h1>
+                <br />
+                <p:outputLabel value="Please Upload the HTML Item File you wish to Inspect and Edit..." />
+                <h:form enctype="multipart/form-data" id="form">
+                    <p:fileUpload fileUploadListener="#{fileUploadControl.handleHTMLFileUpload}" update="growl" auto="false" styleClass="width55" />
+                    <p:growl id="growl" showDetail="true"/>
+                    <br />                
+                    <p:commandButton value="Inspect Item HTML" id="inspectButton"  actionListener="#{inspectItemBean.setHtmlFile(fileUploadControl.file)}" update="table-wrapper inspectButton" ajax="false" rendered="#{!inspectItemBean.showDownload}" />
+                    <p:commandButton id="downloadLink" value="Download Item" actionListener="#{fileDownloadController.prepFileDownload(inspectItemBean.filePath)}" ajax="false" icon="ui-icon-arrowthichk-s" rendered="#{inspectItemBean.showDownload}"> 
+                            <p:fileDownload value="#{fileDownloadController.download}" />
+                    </p:commandButton>
+                    <br />
+                    <br />
+                    <h:panelGroup id="table-wrapper" rendered="#{inspectItemBean.visible}">
+                        <p:accordionPanel style="width: 55%;">  
+                            <p:tab title="Stem">  
+                                <h:panelGrid columns="1" cellpadding="10">  
+                                    <p:editor id="stemEditor" value="#{inspectItemBean.stem}" width="820" height="330" /> 
+                                    <h:panelGrid  columns="3">  
+                                        <p:commandButton id="stemHTMLButton" value="Get HTML"  icon="ui-icon-disk" update="stemEditor" ajax="false" actionListener="#{inspectItemBean.stemHTML(event)}" />  
+                                        <p:commandButton id="stemTextButton"  value="Get Text" icon="ui-icon-disk" update="stemEditor" ajax="false" actionListener="#{inspectItemBean.setText(event)}" />   
+                                        <p:commandButton id="stemSaveButton"  value="Save" icon="ui-icon-disk" actionListener="#{inspectItemBean.saveStem(event)}" update=":growl"/>   
+                                    </h:panelGrid>   
+                                </h:panelGrid>  
+                            </p:tab>  
+                            <p:tab title="Option A">  
+                                <h:panelGrid columns="1" cellpadding="10">  
+                                    <p:editor id="optionAEditor" value="#{inspectItemBean.optionA}" width="820" height="330"/> 
+                                    <h:panelGrid  columns="3">  
+                                        <p:commandButton id="optionAHTMLButton" value="Get HTML"  icon="ui-icon-disk" update="optionAEditor" ajax="false" actionListener="#{inspectItemBean.optionAHTML(event)}" />  
+                                        <p:commandButton id="optionATextButton"  value="Get Text" icon="ui-icon-disk" update="optionAEditor" ajax="false" actionListener="#{inspectItemBean.optionAText(event)}" />   
+                                        <p:commandButton id="optionASaveButton"  value="Save" icon="ui-icon-disk" actionListener="#{inspectItemBean.saveOptionA(event)}" update=":growl"/>   
+                                    </h:panelGrid>    
+                                </h:panelGrid>  
+                            </p:tab>  
+                            <p:tab title="Option B">  
+                                <h:panelGrid columns="1" cellpadding="10">  
+                                    <p:editor id="optionBEditor" value="#{inspectItemBean.optionB}" width="820" height="330"/> 
+                                    <h:panelGrid  columns="3">  
+                                        <p:commandButton id="optionBHTMLButton" value="Get HTML"  icon="ui-icon-disk" update="optionBEditor" ajax="false" actionListener="#{inspectItemBean.optionBHTML(event)}" />  
+                                        <p:commandButton id="optionBTextButton"  value="Get Text" icon="ui-icon-disk" update="optionBEditor" ajax="false" actionListener="#{inspectItemBean.optionBText(event)}" />   
+                                        <p:commandButton id="optionBSaveButton"  value="Save" icon="ui-icon-disk" actionListener="#{inspectItemBean.saveOptionB(event)}" update=":growl"/>   
+                                    </h:panelGrid>    
+                                </h:panelGrid>  
+                            </p:tab>  
+                            <p:tab title="Option C">  
+                                <h:panelGrid columns="1" cellpadding="10">  
+                                    <p:editor id="optionCEditor" value="#{inspectItemBean.optionC}" width="820" height="330"/> 
+                                    <h:panelGrid  columns="3">  
+                                        <p:commandButton id="optionCHTMLButton" value="Get HTML"  icon="ui-icon-disk" update="optionCEditor" ajax="false" actionListener="#{inspectItemBean.optionCHTML(event)}" />  
+                                        <p:commandButton id="optionCTextButton"  value="Get Text" icon="ui-icon-disk" update="optionCEditor" ajax="false" actionListener="#{inspectItemBean.optionCText(event)}" />   
+                                        <p:commandButton id="optionCSaveButton"  value="Save" icon="ui-icon-disk" actionListener="#{inspectItemBean.saveOptionC(event)}" update=":growl"/>   
+                                    </h:panelGrid>    
+                                </h:panelGrid>  
+                            </p:tab>  
+                            <p:tab title="Option D">  
+                                <h:panelGrid columns="1" cellpadding="10">  
+                                    <p:editor id="optionDEditor" value="#{inspectItemBean.optionD}" width="820" height="330"/> 
+                                    <h:panelGrid  columns="3">  
+                                        <p:commandButton id="optionDHTMLButton" value="Get HTML"  icon="ui-icon-disk" update="optionDEditor" ajax="false" actionListener="#{inspectItemBean.optionDHTML(event)}" />  
+                                        <p:commandButton id="optionDTextButton"  value="Get Text" icon="ui-icon-disk" update="optionDEditor" ajax="false" actionListener="#{inspectItemBean.optionDText(event)}" />   
+                                        <p:commandButton id="optionDSaveButton"  value="Save" icon="ui-icon-disk" actionListener="#{inspectItemBean.saveOptionD(event)}" update=":growl"/>   
+                                    </h:panelGrid>    
+                                </h:panelGrid>  
+                            </p:tab>  
+                        </p:accordionPanel>
+                    </h:panelGroup>
+                </h:form>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+
